@@ -1,7 +1,7 @@
 # Malicious URL Detection
 
 Phân loại URL độc hại thành 4 nhóm sử dụng Machine Learning và Deep Learning.  
-Dataset: [Malicious URLs Dataset (Enhanced 2026)](https://www.kaggle.com/datasets/sid321axn/malicious-urls-dataset) — 651,191 URLs, 59 features.
+Dataset: [Malicious URLs Dataset (Enhanced 2026)](https://www.kaggle.com/datasets/sid321axn/malicious-urls-dataset) - 651,191 URLs, 59 features.
 
 ---
 
@@ -62,12 +62,12 @@ malicious-url-detection/
 
 ## Hai Pipeline Dữ Liệu
 
-Project sử dụng 2 pipeline riêng biệt, phản ánh sự khác nhau căn bản giữa ML và DL:
+Project sử dụng 2 pipeline riêng biệt, phản ánh sự khác nhau căn bản giữa mô hình ML và DL:
 
-**`df_tab` — dành cho ML truyền thống**  
-Giữ lại 59 features số. Loại bỏ các cột text (`url`, `domain`, `scan_date`). Chuẩn hóa bằng `StandardScaler` — fit trên train, transform trên test (tránh data leakage).
+**`df_tab`: dành cho ML truyền thống**  
+Giữ lại 59 features số. Loại bỏ các cột text (`url`, `domain`, `scan_date`). Chuẩn hóa bằng `StandardScaler` fit trên train, transform trên test (tránh data leakage).
 
-**`df_seq` — dành cho Deep Learning**  
+**`df_seq`: dành cho Deep Learning**  
 Giữ lại raw URL string. Tokenize ở cấp độ ký tự (`char_level=True`), pad/truncate về độ dài 200. Cho phép CNN và LSTM học trực tiếp từ pattern ký tự trong URL như `/login`, `.exe`, `@`, `//`.
 
 ---
@@ -87,7 +87,7 @@ Accuracy giảm từ 84.37% → 71.60%. Nguyên nhân: SMOTE tạo 12x mẫu t�
 ### Decision Tree: max_depth tuning 87.27% → 91.96%
 Grid search thủ công trên `max_depth ∈ {15, 20, 25, 30, None}`. Tăng từ 10 lên 30 cho F1-macro tăng 10.77 điểm.
 
-### SVM tuning — không hiệu quả
+### SVM tuning - không hiệu quả
 Tuning `C ∈ {0.01, 0.1, 1, 5, 10}` + `class_weight='balanced'` làm accuracy giảm nhẹ. LinearSVC đã hội tụ tốt với cấu hình mặc định.
 
 ---
@@ -107,15 +107,9 @@ Tải dataset từ Kaggle, đặt vào thư mục gốc, sau đó chạy các no
 ## Điểm Đáng Chú Ý
 
 - **Scale lớn**: 651k rows, không subsample
-- **So sánh 2 paradigm**: ML học từ engineered features, DL học từ raw URL — kết quả cho thấy char-level CNN vượt trội
+- **So sánh 2 paradigm**: ML học từ engineered features, DL học từ raw URL kết quả cho thấy char-level CNN vượt trội.
 - **Phân tích thất bại**: SMOTE và SVM tuning đều được phân tích nguyên nhân, không chỉ report số
 - **Tránh data leakage**: StandardScaler chỉ fit trên train set
 - **Random seed stability**: Thực nghiệm với nhiều seed để đánh giá độ ổn định
 
 ---
-
-## Thông Tin
-
-**Môn học**: Nhập Môn Học Máy  
-**Trường**: Đại học Tôn Đức Thắng  
-**Thành viên**: Phạm Ngọc Anh · Lê Minh Gia Bảo · Đặng Quốc Huy
