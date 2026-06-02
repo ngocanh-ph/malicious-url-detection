@@ -74,21 +74,7 @@ Giữ lại raw URL string. Tokenize ở cấp độ ký tự (`char_level=True`
 
 ## Các Kỹ Thuật Cải Thiện
 
-### SimpleRNN: F1-macro 21.10% → 86.08% (+64.98 điểm)
-Kết hợp 4 kỹ thuật đồng thời:
-- **Bidirectional RNN** — xử lý chuỗi hai chiều, giảm vanishing gradient
-- **Dropout(0.3)** — chống overfitting
-- **EarlyStopping** (patience=3) — dừng tại trọng số tốt nhất
-- **Class Weights** — buộc model chú ý lớp thiểu số (Malware 5%)
-
-### SMOTE trên Logistic Regression — thất bại có phân tích
-Accuracy giảm từ 84.37% → 71.60%. Nguyên nhân: SMOTE tạo 12x mẫu tổng hợp so với dữ liệu thật của lớp Malware, nhưng không giải quyết được giới hạn cốt lõi của mô hình tuyến tính trước ranh giới phi tuyến giữa Phishing và Benign.
-
-### Decision Tree: max_depth tuning 87.27% → 91.96%
-Grid search thủ công trên `max_depth ∈ {15, 20, 25, 30, None}`. Tăng từ 10 lên 30 cho F1-macro tăng 10.77 điểm.
-
-### SVM tuning - không hiệu quả
-Tuning `C ∈ {0.01, 0.1, 1, 5, 10}` + `class_weight='balanced'` làm accuracy giảm nhẹ. LinearSVC đã hội tụ tốt với cấu hình mặc định.
+[Đang trong thời gian update]
 
 ---
 
@@ -101,15 +87,5 @@ pip install -r requirements.txt
 ```
 
 Tải dataset từ Kaggle, đặt vào thư mục gốc, sau đó chạy các notebook theo thứ tự từ `01` đến `04`.
-
----
-
-## Điểm Đáng Chú Ý
-
-- **Scale lớn**: 651k rows, không subsample
-- **So sánh 2 paradigm**: ML học từ engineered features, DL học từ raw URL kết quả cho thấy char-level CNN vượt trội.
-- **Phân tích thất bại**: SMOTE và SVM tuning đều được phân tích nguyên nhân, không chỉ report số
-- **Tránh data leakage**: StandardScaler chỉ fit trên train set
-- **Random seed stability**: Thực nghiệm với nhiều seed để đánh giá độ ổn định
 
 ---
